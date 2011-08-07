@@ -14,10 +14,12 @@ SCRIPT=/home/oracle/add.py
 case "$1" in
 start)
 exec su - -p --shell=/bin/sh $WLS_USER -c "$WLST $SCRIPT start"
+touch /var/lock/subsys/cluster
 echo "Registering to the cluster"
 ;;
 stop)
 exec su - -p --shell=/bin/sh $WLS_USER -c "$WLST $SCRIPT stop"
+rm -f /var/lock/subsys/cluster
 echo "Deregistering from the cluster"
 ;;
 *)

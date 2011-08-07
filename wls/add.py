@@ -33,7 +33,7 @@ def createServer(argv):
    cd('/')
    cmo.createServer(managedServerName)
    cd('/Servers/' + managedServerName)
-   cmo.setListenAddress('0.0.0.0')
+   cmo.setListenAddress(machineIP)
    cmo.setListenPort(7101)
    cmo.setCluster(getMBean('/Clusters/c1'))
    cmo.setMachine(getMBean('/Machines/'+machineHost))

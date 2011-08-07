@@ -12,11 +12,13 @@ WL_HOME=/home/oracle/Oracle/Middleware/wlserver_10.3
 case "$1" in
 start)
 exec su - -p --shell=/bin/sh $WLS_USER -c "$WL_HOME/server/bin/startNodeManager.sh > /dev/null" >/dev/null 2>&1 &
+touch /var/lock/subsys/wlsnm
 echo "Node Manager Starting. Sleeping for 30 sec."
 sleep 30
 ;;
 stop)
 exec su - -p --shell=/bin/sh $WLS_USER -c "$WL_HOME/server/bin/stopNodeManager.sh > /dev/null" 2>&1 &
+rm -f /var/lock/subsys/wlsnm
 echo "Node Manager Stopping"
 ;;
 *)
