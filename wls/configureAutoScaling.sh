@@ -1,0 +1,9 @@
+/home/oracle/AutoScaling-1.0.33.1/bin/as-create-launch-config MyLC --image-id ami-378c4d5e --instance-type m1.small
+/home/oracle/AutoScaling-1.0.33.1/bin/as-create-auto-scaling-group MyAutoScalingGroup --launch-configuration MyLC --availability-zones us-east-1b  --min-size 2 --max-size 10 --load-balancers my-load-balancer
+/home/oracle/AutoScaling-1.0.33.1/bin/as-put-scaling-policy MyScaleUpPolicy --auto-scaling-group MyAutoScalingGroup  --adjustment=1 --type ChangeInCapacity  --cooldown 300
+/home/oracle/CloudWatch-1.0.9.5/bin/mon-put-metric-alarm MyHighCPUAlarm  --comparison-operator  GreaterThanThreshold  --evaluation-periods  1 --metric-name  CPUUtilization  --namespace  "AWS/EC2"  --period  240  --statistic Average --threshold  80 --alarm-actions arn:aws:autoscaling:us-east-1:001392979285:scalingPolicy:c4320a02-966f-4505-946d-ece8a6ba2a0e:autoScalingGroupName/MyAutoScalingGroup:policyName/MyScaleUpPolicy --dimensions "AutoScalingGroupName=MyAutoScalingGroup"
+/home/oracle/AutoScaling-1.0.33.1/bin/as-put-scaling-policy MyScaleDownPolicy --auto-scaling-group MyAutoScalingGroup  --adjustment=-1 --type ChangeInCapacity  --cooldown 300
+/home/oracle/CloudWatch-1.0.9.5/bin/mon-put-metric-alarm MyLowCPUAlarm  --comparison-operator  LessThanThreshold --evaluation-periods  1 --metric-name  CPUUtilization --namespace  "AWS/EC2"  --period  240  --statistic Average --threshold  40  --alarm-actions arn:aws:autoscaling:us-east-1:001392979285:scalingPolicy:5ad9f896-69b4-444c-b208-aff6b5746fd0:autoScalingGroupName/MyAutoScalingGroup:policyName/MyScaleDownPolicy --dimensions "AutoScalingGroupName=MyAutoScalingGroup"
+/home/oracle/AutoScaling-1.0.33.1/bin/as-describe-auto-scaling-groups MyAutoScalingGroup --headers
+/home/oracle/AutoScaling-1.0.33.1/bin/as-suspend-processes MyAutoScalingGroup
+/home/oracle/AutoScaling-1.0.33.1/bin/as-resume-processes MyAutoScalingGroup
