@@ -71,4 +71,21 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="-post-jar">
+        <property name="bin.src" value="${basedir}/bin"/>
+        <property name="bin.dest" value="${dist.dir}/bin"/>
+        <mkdir dir="${bin.dest}"/>
+        <copy file="${build.classes.dir}/session-cache-config.xml" todir="${dist.dir}"/>
+        
+        <copy todir="${bin.dest}">
+            <fileset dir="${bin.src}" id="binFiles">
+                <include name="*.sh"/>
+            </fileset>
+        </copy>
+        <chmod perm="755" >
+            <fileset dir="${bin.dest}">
+                <include name="*.sh"/>
+            </fileset>
+        </chmod>
+    </target>
 </project>
