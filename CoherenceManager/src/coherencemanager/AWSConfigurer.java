@@ -43,7 +43,6 @@ public class AWSConfigurer {
         }
         
         credentials = new BasicAWSCredentials(accessKey, secretKey);
-credentials = new BasicAWSCredentials("AKIAJZHJ462NHXHWOMLQ", "wskDXaQ7Owkh6SGKAieBEy8pIgDvjKNFO/LTx5+R");        
     }
 
     public AWSCredentials getCredentials() {
