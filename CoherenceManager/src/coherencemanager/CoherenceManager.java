@@ -38,8 +38,8 @@ public class CoherenceManager implements MemberListener {
     public CoherenceManager() throws IOException, MalformedObjectNameException {
         cache = CacheFactory.getCache("session-storage");
         cache.getCacheService().addMemberListener(this);
-        
-        
+
+
         mbeanServer = ManagementFactory.getPlatformMBeanServer();
         checkStorage();
         while (true) {
@@ -84,8 +84,13 @@ public class CoherenceManager implements MemberListener {
         double clusterRatio = 100D * clusterFreeMem / clusterMaxMem;
 
         System.out.println("Custer statistics (free/max/ratio)" + clusterFreeMem + "/" + clusterMaxMem + "/" + clusterRatio);
-        System.out.println("storage objects: " + cache.size());
-        AWSNotifier.getInstance().sendMetrics(clusterNodes, clusterFreeMem, clusterMaxMem, cache.size(), new Date());
+        int size = 0;
+        try {
+            size = cache.size();
+        } catch (Exception ex) {
+        }
+        System.out.println("storage objects: " + size);
+        AWSNotifier.getInstance().sendMetrics(clusterNodes, clusterFreeMem, clusterMaxMem, size, new Date());
 
     }
 
