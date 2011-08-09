@@ -54,12 +54,20 @@ public class SessionAllocator extends HttpServlet {
                 session.setAttribute("largeData", load);
                 session.setAttribute("id", ++counter);
             }
+            
+            String queryString = request.getQueryString();
+            
+            String requestAsString = request.getRequestURI();
+            if (queryString != null) {
+                requestAsString += "?" + queryString;
+            }
 
             out.println("allocated.megabytes=" + mBytes);
             out.println("session.id=" + session.getId());
             out.println("id=" + session.getAttribute("id"));
             out.println("session.created=" + sdf.format(new Date(session.getCreationTime())));
             out.println("all.sessions.created=" + counter);
+            out.println("link=" + response.encodeURL(requestAsString));
         } finally {
             out.close();
         }

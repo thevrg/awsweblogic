@@ -1,2 +1,5 @@
 ClusterTest/build
 ClusterTest/dist
+CoherenceManager/build
+CoherenceManager/dist
+.DS_Store
