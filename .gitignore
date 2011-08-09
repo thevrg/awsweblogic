@@ -4,3 +4,4 @@ CoherenceManager/build
 CoherenceManager/dist
 private
 .DS_Store
+awsCredentials.properties

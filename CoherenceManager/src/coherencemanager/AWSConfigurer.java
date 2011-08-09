@@ -6,7 +6,10 @@ import com.amazonaws.services.autoscaling.AmazonAutoScalingAsyncClient;
 import com.amazonaws.services.autoscaling.model.CreateAutoScalingGroupRequest;
 import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationRequest;
 import com.amazonaws.services.ec2.model.InstanceType;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
+import java.util.Properties;
 
 /**
  *
@@ -15,9 +18,32 @@ import java.util.Collection;
 public class AWSConfigurer {
 
     private static AWSConfigurer instance = new AWSConfigurer();
-    private AWSCredentials credentials = new BasicAWSCredentials("AKIAJZHJ462NHXHWOMLQ", "wskDXaQ7Owkh6SGKAieBEy8pIgDvjKNFO/LTx5+R");
+    private AWSCredentials credentials;
 
     private AWSConfigurer() {
+        InputStream in = getClass().getResourceAsStream("/awsCredentials.properties");
+        if (in == null) {
+            throw new RuntimeException("awsCredentials.properties must be in classpath");
+        }
+        
+        Properties p = new Properties();
+        try {
+            p.load(in);
+        } catch (IOException ex) {
+            throw new RuntimeException("awsCredentials.properties must be readable by classloader");
+        }
+        String accessKey = p.getProperty("accessKey");
+        if (accessKey == null) {
+            throw new RuntimeException("accessKey not set in awsCredentials.properties");
+        }
+        
+        String secretKey = p.getProperty("secretKey");
+        if (secretKey == null) {
+            throw new RuntimeException("secretKey not set in awsCredentials.properties");
+        }
+        
+        credentials = new BasicAWSCredentials(accessKey, secretKey);
+credentials = new BasicAWSCredentials("AKIAJZHJ462NHXHWOMLQ", "wskDXaQ7Owkh6SGKAieBEy8pIgDvjKNFO/LTx5+R");        
     }
 
     public AWSCredentials getCredentials() {
