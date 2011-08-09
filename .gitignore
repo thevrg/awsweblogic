@@ -2,4 +2,5 @@ ClusterTest/build
 ClusterTest/dist
 CoherenceManager/build
 CoherenceManager/dist
+private
 .DS_Store
